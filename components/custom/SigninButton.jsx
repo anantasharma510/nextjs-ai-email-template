@@ -27,6 +27,8 @@ function SigninButton() {
           picture: user?.picture ?? "",
         });
 
+        
+
         const userDetail = {
           ...user,
           _id: result?._id ?? result,
