@@ -1,5 +1,5 @@
 'use client'
-import { useDragDropLayoutElement, useEmailTemplate } from '@/app/ConvexClientProvider';
+import { useDragDropLayoutElement, useEmailTemplate, useSelectedElement } from '@/app/ConvexClientProvider';
 import React, { useState } from 'react';
 import ButtonComponent from '../custom/Element/ButtonComponent';
 import TextComponent from '../custom/Element/TextComponent';
@@ -12,6 +12,7 @@ function ColumnLayout({ layout }) {
     const [dragOver, setDragOver] = useState();
     const { dragElementLayout } = useDragDropLayoutElement();
     const { emailTemplate, setEmailTemplate } = useEmailTemplate();
+    const {selectedElement, setSelectedElement} = useSelectedElement();
 
     const onDragOverHandle = (event, index) => {
         event.preventDefault();
@@ -70,10 +71,16 @@ function ColumnLayout({ layout }) {
                     <div
                         key={index}
                         className={`
-                           ${!layout?.[index]?.type && 'bg-gray-100 p-2 flex items-center justify-center border border-dashed'} 
-                          ${(index === dragOver?.index && dragOver?.columnId === layout?.id) && 'bg-green-100'}`}
+                           ${!layout?.[index]?.type && 'bg-gray-100 p-0 cursor-pointer flex items-center justify-center border border-dashed'} 
+
+                          ${(index === dragOver?.index && dragOver?.columnId === layout?.id) && 'bg-green-100'}
+                            ${(selectedElement?.layout.id === layout?.id & selectedElement?.index === index )? 'border-blue-500' : ''}
+                          `}
+                        
+
                         onDragOver={(event) => onDragOverHandle(event, index)}
                         onDrop={onDropHandle}
+                        onClick={()=>setSelectedElement({layout:layout,index:index})}
                     >
                        {GetElementComponent(layout?.[index]) ?? 'drag elements here'}
                     </div>
