@@ -33,6 +33,7 @@ export default [
         icon: TextSelectionIcon,
         type: 'Text',
         label: 'Text',
+        content: 'Sample Text',
         textarea: 'Sample Text',
         style: {
             backgroundColor: '#fff',
@@ -52,7 +53,7 @@ export default [
         icon: Image,
         type: 'Image',
         label: 'Image',
-        imageUrl: "/image.png",
+        imageUrl: "/logo/image.png",
         alt: 'Image',
         url: '#',
         style: {
@@ -75,7 +76,7 @@ export default [
         icon: Frame,
         type: 'Logo',
         label: 'Logo',
-        imageUrl: "/logo.svg",
+        imageUrl: "/logo/logo.png",
         alt: 'logo',
         url: '#',
         style: {
