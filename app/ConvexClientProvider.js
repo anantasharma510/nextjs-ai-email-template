@@ -25,7 +25,9 @@ export default function ConvexClientProvider({ children }) {
     if (typeof window !== "undefined") {
       try {
         const storedUserDetail = JSON.parse(localStorage.getItem('userDetail'));
-        const storedEmailTemplate = JSON.parse(localStorage.getItem("emailTemplate"));
+        const storedEmailTemplate = JSON.parse(localStorage.getItem("emailTemplate") || "[]");
+
+
         setUserDetail(storedUserDetail ?? null);
         setEmailTemplate(storedEmailTemplate ?? []);
       } catch (error) {

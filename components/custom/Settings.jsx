@@ -8,6 +8,7 @@ import { Textarea } from '../ui/textarea';
 import ToggleGroupField from './Settings/ToogleGroupField';
 import { AArrowUp, AlignCenter, AlignLeft, AlignRight, CaseSensitive, CaseUpper } from 'lucide-react';
 import DropDownField from './Settings/DropDownField';
+import ImagePreview from './Settings/ImagePreview';
 const TextAlignOptions =[
   {
     value: 'left',
@@ -58,28 +59,56 @@ function Settings() {
    };
 
    const onHandleStyleChange = (fieldName, fieldValue) => {
-     if (!selectedElement || selectedElement.index === undefined) return;
+    if (!selectedElement || selectedElement.index === undefined) return;
+  
+    const updatedElement = {
+      ...selectedElement,
+      layout: {
+        ...selectedElement.layout,
+        [selectedElement.index]: {
+          ...selectedElement.layout[selectedElement.index],
+          style: {
+            ...selectedElement.layout[selectedElement.index].style,
+            [fieldName]: fieldValue
+          }
+        }
+      }
+    };
+  
+    setSelectedElement(updatedElement);
+  };
+  
+   const onHandleOuterStyleChange = (fieldName, fieldValue) => {
+    if (!selectedElement || selectedElement.index === undefined) return;
 
-     const updatedElement = {
-       ...selectedElement,
-       layout: {
-         ...selectedElement.layout,
-         [selectedElement.index]: {
-           ...selectedElement.layout[selectedElement.index],
-           style: {
-             ...selectedElement.layout[selectedElement.index].style,
-             [fieldName]: fieldValue
-           }
-         }
-       }
-     };
+    const updatedElement = {
+      ...selectedElement,
+      layout: {
+        ...selectedElement.layout,
+        [selectedElement.index]: {
+          ...selectedElement.layout[selectedElement.index],
+        outerStyle: {
+            ...selectedElement.layout[selectedElement.index].outerStyle,
+            [fieldName]: fieldValue
+          }
+        }
+      }
+    };
 
-     setSelectedElement(updatedElement);
-   };
+    setSelectedElement(updatedElement);
+  };
 
    return (
      <div className="p-5 flex flex-col gap-3">
        <h2 className="font-bold text-xl text-primary mt-6">Settings</h2>
+       {element?.imageUrl && 
+         <ImagePreview
+           label="image Url" 
+           value={element.imageUrl} 
+           handleInputChange={(value) => handleInputChange('imageUrl', value)} 
+         />
+       }
+
 
        {element?.content && 
          <InputField 
@@ -139,6 +168,14 @@ function Settings() {
            onHandleStyleChange={(value) => onHandleStyleChange('padding', value)}
          />
        }
+         {element?.style?.margin &&
+         <InputStyleField
+           label="margin"
+           value={element.style.margin}
+           type="px"
+           onHandleStyleChange={(value) => onHandleStyleChange('margin', value)}
+         />
+       }
 
        {element?.style?.borderRadius &&
          <InputStyleField
@@ -185,6 +222,25 @@ function Settings() {
            onHandleStyleChange={(value) => onHandleStyleChange('fontWeight', value)}
          />
        }
+     <div>
+  <h2 className="font-bold mb-2">Outer Style</h2>
+  {element?.outerStyle?.backgroundColor && (
+    <ColorPickerField 
+      label="Background Color"
+      value={element.outerStyle.backgroundColor} // Corrected path
+      onHandleStyleChange={(value) => onHandleOuterStyleChange?.('backgroundColor', value)} // Corrected prop name
+    />
+  )}
+   {element?.outerStyle?.justifyContent && (
+    <ToggleGroupField
+      label="Align "
+      value={element.outerStyle.justifyContent } // Corrected path
+      options={TextAlignOptions}
+      onHandleStyleChange={(value) => onHandleOuterStyleChange?.('justifyContent ', value)} // Corrected prop name
+    />
+  )}
+</div>
+
      </div>
    );
 }

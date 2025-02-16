@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { Button } from '../ui/button';
 import Image from 'next/image';
+import Link from 'next/link';
 
 function EmailTemplateList() {
     const [emailList,setEmailList] = useState([]);
@@ -15,7 +16,9 @@ function EmailTemplateList() {
         alt="Email Logo"
         height={250}
         width={250} />
+        <Link href={"/dashboard/create"}>
         <Button className='mt-6'> +Create new Template</Button>
+        </Link>
 
         </div>}
     </div>
