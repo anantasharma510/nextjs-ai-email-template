@@ -68,3 +68,35 @@ export const SaveTemplate = mutation({
       }
     },
   });
+  export const GetAllUserTemplates = query({
+    args: {
+      email: v.string(), // Expecting the email as a string argument
+    },
+    handler: async (ctx, args) => {
+      try {
+        // Ensure that email exists in the arguments
+        if (!args.email) {
+          throw new Error("Email parameter is required.");
+        }
+  
+        // Fetch templates filtered by email (assuming email field exists in your db schema)
+        const result = await ctx.db.query('emailTemplates')
+          .filter({ email: args.email })  // Filter by email
+          .collect(); // Collect the filtered results
+  
+        // If no templates are found, return a message
+        if (result.length === 0) {
+          return { message: "No templates found for the given email." };
+        }
+  
+        return result; // Return the filtered templates
+      } catch (e) {
+        console.error("Error fetching user templates:", e);
+        return {
+          error: "Failed to fetch user templates.",
+          details: e.message, // Send error details for debugging
+        };
+      }
+    },
+  });
+  

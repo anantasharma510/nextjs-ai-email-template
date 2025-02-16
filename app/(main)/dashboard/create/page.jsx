@@ -2,6 +2,7 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Sparkle } from 'lucide-react'
 import AiInputBox from '@/components/custom/AiInputBox'
+import Link from "next/link"
 
 
 function Create() {
@@ -21,7 +22,9 @@ Create a new template</h2>
 <Tabs defaultValue="AI" className="w-[400px] mt-10">
   <TabsList>
     <TabsTrigger value="AI">Create With Ai <Sparkle className='h-5 w-3 ' /> </TabsTrigger>
+    <Link href={'/editor'+'/'+123}>
     <TabsTrigger value="SCRATCH">Start From Scratch</TabsTrigger>
+    </Link>
   </TabsList>
   <TabsContent value="AI">
     <AiInputBox/>
